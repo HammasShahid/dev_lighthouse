@@ -1,19 +1,77 @@
+<?php
+
+$pdo = require_once '../db/connection.php';
+session_start();
+
+['date' => $date, 'time' => $time, 'guests' => $guests, 'location' => $location] = $_SESSION['reservation'];
+$dateTime = new DateTime("$date $time");
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $phone = $_POST['phone'];
+
+  if (!$name) {
+    $errors[] = 'Please provide your name';
+  }
+  if (!$email) {
+    $errors[] = 'Please provide your email';
+  }
+  if (!$phone) {
+    $errors[] = 'Please provide your phone';
+  }
+
+  if (empty($errors)) {
+    $_SESSION['reservation']['name'] = $name;
+    $_SESSION['reservation']['email'] = $email;
+    $_SESSION['reservation']['phone'] = $phone;
+
+
+    $statement = $pdo->prepare("INSERT INTO reservation (guests, date, time, location_id, name, email, phone, seating_location) VALUES (:guests, :date, :time, :location_id, :name, :email, :phone, :seating_location);");
+    $statement->bindValue(':guests', $guests);
+    $statement->bindValue(':date', $date);
+    $statement->bindValue(':time', $time);
+    $statement->bindValue(':location_id', $location['id']);
+    $statement->bindValue(':name', $name);
+    $statement->bindValue(':email', $email);
+    $statement->bindValue(':phone', $phone);
+    $statement->bindValue(':seating_location', 'table');
+
+    $statement->execute();
+
+    header('Location: reservation-success.php');
+  }
+}
+
+?>
+
 <?php require_once "../views/partials/header.php" ?>
 <?php $prevLink = "reserve-time.php" ?>
 <?php require_once "../views/partials/reservation-header.php" ?>
 
 <div class="contact-container">
   <div class="content-container summary-container">
-    <p class="heading--container summary-date">SUN, Mar 22 - 11:00PM - 2 Guests</p>
+    <p class="heading--container summary-date"><?= $dateTime->format("D, M d - h:i A") . " - $guests Guest" . ($guests > 1 ? 's' : '') ?></p>
     <div class="reservation-text">
-      <p>3600 Townline Rd.</p>
+      <p><?= $location['address']; ?></p>
       <p>Abbotsford, B.C. V2T 5W8</p>
     </div>
     <p class="summary-heading">Reservation Summary</p>
   </div>
   <p class="content-container join-message">Join us for happy hour starting at $5 @9pm</p>
-  <form class="content-container contact-form">
+  <form method="post" class="content-container contact-form">
     <div class="contact-fields-container">
+      <?php
+      if (!empty($errors)) :
+        foreach ($errors as $error) :
+      ?>
+          <p><?= $error ?></p>
+      <?php
+        endforeach;
+      endif;
+      ?>
       <div class="contact-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" class="contact-field" />

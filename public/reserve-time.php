@@ -10,20 +10,27 @@ $pdo = require_once '../db/connection.php';
 ['date' => $date, 'time' => $time, 'guests' => $guests, 'location' => $location] = $_SESSION['reservation'];
 
 $reservesInDb = [];
-if (empty($errors)) {
-  $statement = $pdo->prepare("SELECT * FROM reservation WHERE date = :date AND time = :time");
-  $statement->bindValue(':date', $date);
-  $statement->bindValue(':time', $time);
-  $statement->execute();
-  $reservesInDb = $statement->fetchAll(PDO::FETCH_ASSOC);
+$statement = $pdo->prepare("SELECT * FROM reservation WHERE date = :date AND time = :time");
+$statement->bindValue(':date', $date);
+$statement->bindValue(':time', $time);
+$statement->execute();
+$reservesInDb = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-  // foreach($reservesInDb )
-  // $statement = $pdo->prepare("INSERT INTO reservation (guests, date, time, location) VALUES (:guests, :date, :time, :location)");
-  // $statement->bindValue(':guests', $guests);
-  // $statement->bindValue(':date', $date);
-  // $statement->bindValue(':time', $time);
-  // $statement->bindValue(':location', $location);
-  $dateTime = new DateTime("$date $time");
+// foreach($reservesInDb )
+// $statement = $pdo->prepare("INSERT INTO reservation (guests, date, time, location) VALUES (:guests, :date, :time, :location)");
+// $statement->bindValue(':guests', $guests);
+// $statement->bindValue(':date', $date);
+// $statement->bindValue(':time', $time);
+// $statement->bindValue(':location', $location);
+$dateTime = new DateTime("$date $time");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $selectedTime = $_POST['time'];
+
+  $newDateTime = new DateTime("$date $selectedTime");
+  $_SESSION['reservation']['time'] = $newDateTime->format("H:i");
+
+  header("Location: reservation-contact.php");
 }
 ?>
 
@@ -31,24 +38,19 @@ if (empty($errors)) {
 <?php $prevLink = "reserve.php" ?>
 <?php require_once "../views/partials/reservation-header.php" ?>
 
-<?= "date: $date" ?>
-<?= "time: $time" ?>
-<div class="content-container">
+<div class="reserve-time-container content-container">
   <h2>Pick Your Time</h2>
-  <?php if (count($reservesInDb)) {  ?>
-    Sorry your selected time is not available
-  <?php } else { ?>
-    <div class="reserve-available-times">
+  <div class="reserve-availability-container">
+    <div class="time-availability">
       <form action="" method="post">
-        <input type="hidden" value="<?= $time ?>" />
-        <button type="submit">
+        <input name="time" type="hidden" value="<?= $time ?>" />
+        <button class="btn time-choice-button" type="submit">
           <p><?= $dateTime->format("g:i A"); ?></p>
-          <p>Table</p>
+          <p class="seating-spot">Table</p>
         </button>
       </form>
     </div>
-  <?php } // end else 
-  ?>
+  </div>
 </div>
 
 <?php require_once "../views/partials/footer.php" ?>

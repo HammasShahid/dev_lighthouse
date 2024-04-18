@@ -11,8 +11,8 @@
 
 <div class="search-form-container">
   <button class="search-close"><i class="fas fa-close"></i></button>
-  <form class="search-form">
-    <input type="text" name="search" placeholder="Enter Name, Email or Phone Number" class="search-input" />
+  <form method="get" class="search-form">
+    <input type="text" name="search" placeholder="Enter Name, Email or Phone Number" value="<?= $search ?>" class="search-input" />
     <button type="submit" class="search-submit"><i class="fas fa-search"></i></button>
   </form>
 </div>

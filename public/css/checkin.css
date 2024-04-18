@@ -1,7 +1,22 @@
+.search-query-text {
+  font-size: 3rem;
+  font-weight: 400;
+  border-bottom: 1px solid black;
+  padding-bottom: 1rem;
+  margin: 2rem 0;
+}
+
+.search-query-text span {
+  font-weight: 700;
+  margin-left: 1rem;
+}
+
 .card-container {
   margin-top: 5rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  column-gap: 5rem;
+  row-gap: 2.5rem;
 }
 
 .card {
@@ -15,6 +30,7 @@
 
 .card__name {
   font-size: 1.8rem;
+  text-transform: capitalize;
 }
 
 .card__time,
@@ -29,58 +45,3 @@
   gap: 1.5rem;
 }
 
-.search-form-container {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  place-items: center;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  font-size: 1.8rem;
-}
-
-.search-form-container.visible {
-  display: grid;
-}
-
-.search-form {
-  width: 75vw;
-  display: flex;
-}
-
-.search-input {
-  /* width: 90%; */
-  font-size: 1.8rem;
-  flex-grow: 1;
-  padding: 2.5rem;
-}
-
-.search-submit {
-  font-size: 3rem;
-  width: 10%;
-  background-color: var(--color-primary);
-  color: #fff;
-  border: none;
-  border-top-right-radius: 0.4rem;
-  border-bottom-right-radius: 0.4rem;
-  cursor: pointer;
-}
-
-.search-input::placeholder {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.search-close {
-  background: transparent;
-  color: white;
-  font-size: 3rem;
-  border: 1px solid #fff;
-  padding: 1rem 1.5rem;
-  position: absolute;
-  top: 5%;
-  right: 12%;
-  cursor: pointer;
-}

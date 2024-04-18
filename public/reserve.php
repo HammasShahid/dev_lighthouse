@@ -55,7 +55,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (empty($errors)) {
     $_SESSION['reservation'] = [];
-    $_SESSION['reservation']['location'] = $location;
+
+    // getLocations()
+    $selectedLocation = array_filter(getLocations(), function ($loc) {
+      global $location;
+      if ($loc['id'] == $location) {
+        return true;
+      }
+    })[0];
+
+    // $_SESSION['reservation']['location'] = $location;
+    $_SESSION['reservation']['location'] = $selectedLocation;
     $_SESSION['reservation']['time'] = $time;
     $_SESSION['reservation']['date'] = $date;
     $_SESSION['reservation']['guests'] = $guests;
@@ -124,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="content-container reserve-form-group">
       <div class="reserve-input-group">
         <i data-time-prev class="input-step fas fa-chevron-left"></i>
-        <input data-time type="time" id="time" name="time" class="reserve-form-input" step="600" value="<?= getMinTime(); ?>" />
+        <input data-time type="time" id="time" name="time" class="reserve-form-input" value="<?= getMinTime(); ?>" />
         <i data-time-next class="input-step fas fa-chevron-right"></i>
       </div>
       <label for="time" class="reserve-form-label">Time</label>

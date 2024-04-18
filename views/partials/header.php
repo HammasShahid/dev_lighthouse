@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/home.css" />
   <link rel="stylesheet" href="css/reserve.css" />
+  <link rel="stylesheet" href="css/reserve-time.css">
   <link rel="stylesheet" href="css/reservation-contact.css">
   <link rel="stylesheet" href="css/reservation-success.css">
   <link rel="stylesheet" href="css/footer.css" />

@@ -1,6 +1,8 @@
-<?php require_once "../views/partials/header.php" ?>
-<?php $prevLink = "reservation-contact.php" ?>
-<?php require_once "../views/partials/reservation-header.php" ?>
+<?php
+require_once "../views/partials/header.php";
+$prevLink = "reservation-contact.php";
+require_once "../views/partials/reservation-header.php";
+?>
 
 <div class="content-container success-container">
   <i class="success-icon fas fa-check-circle"></i>

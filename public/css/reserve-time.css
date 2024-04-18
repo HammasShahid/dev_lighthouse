@@ -1,0 +1,38 @@
+.reserve-time-container {
+  padding: 0;
+  padding-top: 4.5rem;
+  gap: 5rem;
+  font-family: 'Epilogue', sans-serif;
+}
+.reserve-time-container h2 {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+
+.reserve-availability-container {
+  width: 100%;
+}
+
+.time-availability {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 2.5rem;
+  row-gap: 1.5rem;
+  background-color: var(--color-primary);
+  padding: 2rem;
+  border-radius: 0.4rem;
+  width: 100%;
+}
+
+.time-choice-button {
+  font-size: 2.4rem;
+  background-color: #ffff;
+  border: none;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.seating-spot {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
