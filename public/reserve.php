@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="content-container reserve-form-group">
       <div class="reserve-input-group">
         <i data-guests-prev class="input-step fas fa-chevron-left"></i>
-        <input data-guests type="number" id="guests" name="guests" class="reserve-form-input" value="1" step="1" disabled />
+        <input data-guests type="number" id="guests" name="guests" class="reserve-form-input" value="1" step="1" />
         <i data-guests-next class="input-step fas fa-chevron-right"></i>
       </div>
       <label for="guests" class="reserve-form-label">Guests</label>
