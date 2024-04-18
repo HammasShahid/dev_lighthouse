@@ -3,9 +3,9 @@
   margin-top: 10rem;
 }
 
-.reserve-page > *:not(.content-logo-container) {
+/* .reserve-page > *:not(.content-logo-container) {
   padding: 1rem;
-}
+} */
 
 .join-message {
   text-transform: uppercase;
@@ -33,8 +33,33 @@
   /* padding: 1rem; */
 }
 
+.reserve-input-group {
+  min-width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-step {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.reserve-form-select {
+  background-color: transparent;
+
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Safari, Chrome, Opera */
+  -webkit-appearance: none;
+}
+
+.reserve-form-select::-ms-expand {
+  display: none;
+}
+
 .btn--secondary {
-  background-color: #DEE1E6;
+  background-color: #dee1e6;
   padding: 2rem 1rem;
   border: none;
   font-size: 2rem;

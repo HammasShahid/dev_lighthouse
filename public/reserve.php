@@ -1,10 +1,21 @@
 <?php
 
+date_default_timezone_set("America/Los_Angeles");
+
 session_start();
 $pdo = require_once '../db/connection.php';
 // require_once '../db/reserve_query.php';
 
-
+function getMinDate()
+{
+  $dateTime = new DateTime('now');
+  return $dateTime->format("Y-m-d");
+}
+function getMinTime()
+{
+  $dateTime = new DateTime('now');
+  return $dateTime->format("H:i");
+}
 
 function getLocations()
 {
@@ -80,26 +91,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       ?>
     <?php endif; ?>
     <div class="content-container reserve-form-group">
-      <select id="location" name="location" class="reserve-form-input">
+      <div class="reserve-input-group">
+        <i data-location-prev class="input-step fas fa-chevron-left"></i>
+        <select data-location id="location" name="location" class="reserve-form-input reserve-form-select">
 
-        <?php foreach (getLocations() as $location) : ?>
-          <option value="<?= $location['id']; ?>">
-            <?= $location['address']; ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
+          <?php foreach (getLocations() as $location) : ?>
+            <option value="<?= $location['id']; ?>">
+              <?= $location['address']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+        <i data-location-next class="input-step fas fa-chevron-right"></i>
+      </div>
       <label for="location" class="reserve-form-label">Location</label>
     </div>
     <div class="content-container reserve-form-group">
-      <input type="date" id="date" name="date" class="reserve-form-input" />
+      <div class="reserve-input-group">
+        <i data-date-prev class="input-step fas fa-chevron-left"></i>
+        <input data-date type="date" id="date" name="date" min="<?= getMinDate(); ?>" value="<?= getMinDate(); ?>" class="reserve-form-input" />
+        <i data-date-next class="input-step fas fa-chevron-right"></i>
+      </div>
       <label for="date" class="reserve-form-label">Date</label>
     </div>
     <div class="content-container reserve-form-group">
-      <input type="text" id="guests" name="guests" class="reserve-form-input" value="1" />
+      <div class="reserve-input-group">
+        <i data-guests-prev class="input-step fas fa-chevron-left"></i>
+        <input data-guests type="number" id="guests" name="guests" class="reserve-form-input" value="1" step="1" disabled />
+        <i data-guests-next class="input-step fas fa-chevron-right"></i>
+      </div>
       <label for="guests" class="reserve-form-label">Guests</label>
     </div>
     <div class="content-container reserve-form-group">
-      <input type="time" id="time" name="time" class="reserve-form-input" value="12:00" />
+      <div class="reserve-input-group">
+        <i data-time-prev class="input-step fas fa-chevron-left"></i>
+        <input data-time type="time" id="time" name="time" class="reserve-form-input" step="600" value="<?= getMinTime(); ?>" />
+        <i data-time-next class="input-step fas fa-chevron-right"></i>
+      </div>
       <label for="time" class="reserve-form-label">Time</label>
     </div>
     <input type="submit" class="btn content-container btn--secondary" value="Search" />
@@ -108,4 +135,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script src="/js/reserve.js"></script>
+<script>
+  const timeField = document.querySelector('[data-time]');
+  const timeNext = document.querySelector('[data-time-next]');
+  const timePrev = document.querySelector('[data-time-prev]');
+
+  const dateField = document.querySelector('[data-date]');
+  const dateNext = document.querySelector('[data-date-next]');
+  const datePrev = document.querySelector('[data-date-prev]');
+
+  const guestsField = document.querySelector('[data-guests]');
+  const guestsNext = document.querySelector('[data-guests-next]');
+  const guestsPrev = document.querySelector('[data-guests-prev]');
+
+  function stepUp(stepBtn, field) {
+    stepBtn.addEventListener('click', () => {
+      field.stepUp();
+    });
+  }
+
+  function stepDown(stepBtn, field) {
+    stepBtn.addEventListener('click', () => {
+      field.stepDown();
+    });
+  }
+
+  stepUp(timeNext, timeField);
+  stepDown(timePrev, timeField);
+
+  stepUp(dateNext, dateField);
+  stepDown(datePrev, dateField);
+
+
+  stepUp(guestsNext, guestsField);
+  stepDown(guestsPrev, guestsField);
+</script>
 <?php require_once "../views/partials/footer.php" ?>
