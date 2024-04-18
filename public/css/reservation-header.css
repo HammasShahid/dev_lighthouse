@@ -1,0 +1,14 @@
+.reservation-header {
+  margin-top: 4.2rem;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.header-back-btn {
+  text-decoration: none;
+  color: #171a1f;
+  /* font-size: 5rem; */
+}

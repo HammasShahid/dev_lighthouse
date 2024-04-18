@@ -1,0 +1,35 @@
+.checkin-header-container {
+  background-color: var(--color-primary-light);
+  padding: 2.5rem;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 4rem;
+  color: #fff;
+  width: 100%;
+}
+
+.checkin-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.checkin-header-back-btn {
+  text-decoration: none;
+  color: #fff;
+  /* font-size: 5rem; */
+}
+
+.search-toggle {
+  background-color: white;
+  border: none;
+  font-size: 1.8rem;
+  padding: 1rem 8rem;
+  color: #171a1f;
+  border-radius: 0.4rem;
+  display: inline-block;
+}

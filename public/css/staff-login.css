@@ -1,0 +1,46 @@
+.back-btn {
+  margin-top: 4.2rem;
+}
+
+.back-btn a.btn {
+  padding: 1.3rem 6rem;
+  font-size: 14px;
+}
+
+.staff-login-page .content-container {
+  gap: 6rem;
+  box-shadow: none;
+}
+
+.access-key-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  align-items: center;
+}
+
+.access-key-form label {
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #424955;
+}
+
+.staff-form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.staff-login-input {
+  background: #f3f4f6;
+  border: none;
+  padding: 1.5rem;
+}
+
+.staff-login-btn {
+  display: inline-block;
+  width: fit-content;
+  padding: 2rem 10rem;
+}

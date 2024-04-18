@@ -1,0 +1,41 @@
+.reserve-page {
+  font-size: 2rem;
+  margin-top: 10rem;
+}
+
+.reserve-page > *:not(.content-logo-container) {
+  padding: 1rem;
+}
+
+.join-message {
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  background-color: var(--color-primary);
+  color: #fff;
+  /* padding: 1rem; */
+}
+
+.reserve-form-group {
+  display: flex;
+  flex-direction: column;
+  /* text-align: center; */
+}
+
+.reserve-form-label {
+  font-weight: 700;
+}
+
+.reserve-form-input {
+  text-align: center;
+  border: none;
+  font-size: 2rem;
+  /* padding: 1rem; */
+}
+
+.btn--secondary {
+  background-color: #DEE1E6;
+  padding: 2rem 1rem;
+  border: none;
+  font-size: 2rem;
+}

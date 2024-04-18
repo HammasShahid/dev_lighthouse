@@ -1,0 +1,60 @@
+.contact-container {
+  margin-top: 3rem;
+}
+
+.contact-submit-btn {
+  font-size: 2rem;
+  background-color: #dee1e6;
+  border: none;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.summary-container {
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.summary-date {
+  font-size: 2.8rem;
+}
+
+.reservation-text {
+  font-size: 2rem;
+  font-family: 'Epilogue', sans-serif;
+  text-align: center;
+}
+
+.summary-heading {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.contact-form {
+  padding: 0;
+  padding-top: 2.5rem;
+  gap: 3rem;
+}
+
+.contact-fields-container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-group {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 1rem;
+  border-radius: 0.4rem;
+}
+
+.contact-group label {
+  font-size: 1.2rem;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.contact-field {
+  border: 0;
+}

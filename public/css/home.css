@@ -1,0 +1,11 @@
+.home-content-container {
+  margin-top: 10rem;
+  gap: 15rem;
+  padding-bottom: 2rem;
+  box-shadow: none;
+  /* border: none; */
+}
+
+.home-logo {
+  width: 45rem;
+}

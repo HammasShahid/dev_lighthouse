@@ -1,0 +1,44 @@
+.footer {
+  font-family: 'Epilogue', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
+  font-size: 1.6rem;
+  color: #ffffff;
+  background: var(--color-bg);
+  padding-top: 3.8rem;
+  padding-bottom: 3.5rem;
+
+  margin-top: auto;
+}
+
+.footer__brand {
+  font-weight: 800;
+  font-size: 3.2rem;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+
+.footer__content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer__address {
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  gap: 28rem;
+  font-weight: 600;
+}
+
+.footer__links {
+  line-height: 3rem;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.footer__copyright {
+  font-size: 1.4rem;
+  font-family: 'Inter', sans-serif;
+}
