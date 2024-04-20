@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="content-container reserve-form-group">
       <div class="reserve-input-group">
         <i data-time-prev class="input-step fas fa-chevron-left"></i>
-        <input data-time type="time" id="time" name="time" class="reserve-form-input" value="<?= getMinTime(); ?>" />
+        <input data-time type="time" id="time" name="time" min="11:00" max="23:00" class="reserve-form-input" value="<?= getMinTime(); ?>" />
         <i data-time-next class="input-step fas fa-chevron-right"></i>
       </div>
       <label for="time" class="reserve-form-label">Time</label>

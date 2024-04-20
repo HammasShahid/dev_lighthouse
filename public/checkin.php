@@ -69,9 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="hidden" name="id" value="<?= $reservation['id']; ?>" />
         <input type="submit" name="check-in" value="Check In" class="btn btn--primary--outline" />
         <input type="submit" name="no-show" value="No Show" class="btn btn--primary--outline" />
-        <input type="submit" name="contact-info" value="Contact Info" class="btn btn--primary--outline" />
+      </form>
+      <form data-contact-info-form class="contact-info-form" method="post">
+        <input type="hidden" name="name" value="<?= $reservation['name'] ?>" />
+        <input type="hidden" name="email" value="<?= $reservation['email'] ?>" />
+        <input type="hidden" name="phone" value="<?= $reservation['phone'] ?>" />
+        <button type="submit" type="button" class="btn btn--primary--outline">Contact Info</button>
       </form>
     </div>
   <?php endforeach; ?>
 </div>
+
+<?php include "../views/checkin/info-popup.php"; ?>
+
+<script src="js/checkin.js"></script>
 <?php require_once "../views/partials/staff-footer.php" ?>

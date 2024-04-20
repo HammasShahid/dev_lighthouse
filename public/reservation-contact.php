@@ -3,7 +3,7 @@
 $pdo = require_once '../db/connection.php';
 session_start();
 
-['date' => $date, 'time' => $time, 'guests' => $guests, 'location' => $location] = $_SESSION['reservation'];
+['date' => $date, 'time' => $time, 'end_time' => $endTime, 'guests' => $guests, 'location' => $location, 'seating_location' => $seating_location] = $_SESSION['reservation'];
 $dateTime = new DateTime("$date $time");
 
 $errors = [];
@@ -29,15 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['reservation']['phone'] = $phone;
 
 
-    $statement = $pdo->prepare("INSERT INTO reservation (guests, date, time, location_id, name, email, phone, seating_location) VALUES (:guests, :date, :time, :location_id, :name, :email, :phone, :seating_location);");
+    $statement = $pdo->prepare("INSERT INTO reservation (guests, date, time, end_time, location_id, name, email, phone, seating_location) VALUES (:guests, :date, :time, :end_time, :location_id, :name, :email, :phone, :seating_location);");
     $statement->bindValue(':guests', $guests);
     $statement->bindValue(':date', $date);
     $statement->bindValue(':time', $time);
+    $statement->bindValue(':end_time', $endTime);
     $statement->bindValue(':location_id', $location['id']);
     $statement->bindValue(':name', $name);
     $statement->bindValue(':email', $email);
     $statement->bindValue(':phone', $phone);
-    $statement->bindValue(':seating_location', 'table');
+    $statement->bindValue(':seating_location', $seating_location);
 
     $statement->execute();
 

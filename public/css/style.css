@@ -93,6 +93,7 @@ a.btn {
   flex-direction: column;
   /* place-items: center; */
   align-items: center;
+  margin-bottom: 10rem;
 }
 
 .content-container {
