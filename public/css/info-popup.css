@@ -1,4 +1,6 @@
 .info-popup-text-container {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: relative;
   color: #fff;
   border: 1px solid #fff;
   padding: 5rem;
@@ -13,4 +15,13 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.info-popup-close {
+  right: 0;
+  top: 0;
+}
+
+.info-popup-container {
+  background: transparent;
 }

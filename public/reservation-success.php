@@ -2,16 +2,31 @@
 require_once "../views/partials/header.php";
 $prevLink = "reservation-contact.php";
 require_once "../views/partials/reservation-header.php";
+
+session_start();
+
+if (empty($_SESSION['reservation'])) {
+  header("Location: index.php");
+}
+
+['name' => $name, 'email' => $email, 'date' => $date, 'time' => $time, 'guests' => $guests, 'location' => $location] = $_SESSION['reservation'];
+
+$to = $email;
+$from = "lighthouse@lighthouse.stagingwordpressweb.site";
+$subject = "Your Reservation at Lighthouse Bar and Grill - Confirmation";
+$headers = "From:$from";
+
+require "../views/email-template.php";
+
+mail($to, $subject, $message, $headers);
+
+$_SESSION['reservation'] = [];
+
 ?>
 
-<div class="content-container success-container">
-  <i class="success-icon fas fa-check-circle"></i>
-  <p class="heading--container">Reservation Success</p>
-  <div class="success-text">
-    <p>We look forward to serving you soon. </p>
-    <p>Please find a confirmation in your email.</p>
-  </div>
-  <a href="index.php" class="btn btn--primary success-home-btn">Home</a>
-</div>
-
-<?php require_once "../views/partials/footer.php" ?>
+<!-- View  -->
+<?php
+require_once "../views/reservation-success.php";
+require_once "../views/partials/footer.php";
+?>
+<!-- -->

@@ -6,9 +6,12 @@ if (empty($_SESSION['reservation'])) {
 }
 
 $pdo = require_once '../db/connection.php';
+$constants = require_once '../helpers/constants.php';
 
-$tableLimit = 5;
-$barLimit = 5;
+// $tableLimit = 5;
+// $barLimit = 5;
+
+['tableLimit' => $tableLimit, 'barLimit' => $barLimit] = $constants;
 
 function getReservesInDb($date, $time, $seating_location)
 {
@@ -124,31 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php $prevLink = "reserve.php" ?>
 <?php require_once "../views/partials/reservation-header.php" ?>
 
-<div class="reserve-time-container content-container">
-  <h2>Pick Your Time</h2>
-  <div class="reserve-availability-container">
-    <div class="availability-options">
-      <?php
-      $seating_spot = 'table';
-      foreach ($tableAvailabilityList as $availableTime) {
-        include "../views/reserve-time/time-availability-option.php";
-      }
-      $seating_spot = 'bar';
-      foreach ($barAvailabilityList as $availableTime) {
-        include "../views/reserve-time/time-availability-option.php";
-      }
-      ?>
-    </div>
-
-    <p class="date-availability-text">Other dates with availability at <?= $dateTime->format('h:i A'); ?></p>
-    <div class="availability-options">
-      <?php
-      foreach (getAvailableDates($date, $time, $tableLimit, $barLimit) as $date) {
-        include "../views/reserve-time/date-availability-option.php";
-      }
-      ?>
-    </div>
-  </div>
-</div>
+<!-- View -->
+<?php require_once "../views/reserve-time/index.php" ?>
+<!-- -->
 
 <?php require_once "../views/partials/footer.php" ?>

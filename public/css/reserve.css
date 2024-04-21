@@ -32,6 +32,7 @@
   text-align: center;
   border: none;
   font-size: 2rem;
+  background-color: #fff;
   /* padding: 1rem; */
 }
 
@@ -58,11 +59,4 @@
 
 .reserve-form-select::-ms-expand {
   display: none;
-}
-
-.btn--secondary {
-  background-color: #dee1e6;
-  padding: 2rem 1rem;
-  border: none;
-  font-size: 2rem;
 }

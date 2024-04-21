@@ -43,3 +43,12 @@
   font-size: 1.4rem;
   font-family: 'Inter', sans-serif;
 }
+
+@media only screen and (max-width: 576px) {
+  .footer__brand {
+    font-size: 3rem;
+  }
+  .footer__address {
+    gap: 10rem;
+  }
+}
