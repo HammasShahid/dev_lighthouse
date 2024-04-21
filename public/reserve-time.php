@@ -11,9 +11,9 @@ $constants = require_once '../helpers/constants.php';
 // $tableLimit = 5;
 // $barLimit = 5;
 
-['tableLimit' => $tableLimit, 'barLimit' => $barLimit] = $constants;
+['tableLimit' => $tableLimit, 'barLimit' => $barLimit, 'maxReservationTime' => $maxReservationTime] = $constants;
 
-function getReservesInDb($date, $time, $seating_location)
+function getReservesInDb($date, $time, $maxReservationTime, $seating_location)
 {
   global $pdo;
 
@@ -27,7 +27,7 @@ function getReservesInDb($date, $time, $seating_location)
   $statement->bindValue(':time', $time);
 
   $timestamp = strtotime($time);
-  $end_timestamp = $timestamp + 60 * 60;
+  $end_timestamp = $timestamp + $maxReservationTime;
   $end_time = date("H:i", $end_timestamp);
   // echo $end_time;
 
@@ -37,7 +37,7 @@ function getReservesInDb($date, $time, $seating_location)
   return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getAvailabilityList($date, $time, $limit, $seating_location)
+function getAvailabilityList($date, $time, $maxReservationTime, $limit, $seating_location)
 {
   $availabilityList = [];
   for ($i = 0; count($availabilityList) < 2; $i++) {
@@ -46,7 +46,7 @@ function getAvailabilityList($date, $time, $limit, $seating_location)
     $timestamp = strtotime($time);
     $timeInterval = date("H:i", $timestamp + $timeIncrement);
 
-    $reservesInDb = getReservesInDb($date, $timeInterval, $seating_location);
+    $reservesInDb = getReservesInDb($date, $timeInterval, $maxReservationTime, $seating_location);
     $available = true;
     if (count($reservesInDb) >= $limit) {
       $available = false;
@@ -59,7 +59,7 @@ function getAvailabilityList($date, $time, $limit, $seating_location)
 
   return $availabilityList;
 }
-
+// Get other available dates for the time provided
 function getAvailableDates($date, $time, $tableLimit, $barLimit)
 {
   global $pdo;
@@ -95,8 +95,8 @@ function getAvailableDates($date, $time, $tableLimit, $barLimit)
 
 ['date' => $date, 'time' => $time, 'guests' => $guests, 'location' => $location] = $_SESSION['reservation'];
 
-$tableAvailabilityList = getAvailabilityList($date, $time, $tableLimit, 'table');
-$barAvailabilityList = getAvailabilityList($date, $time, $tableLimit, 'bar');
+$tableAvailabilityList = getAvailabilityList($date, $time, $maxReservationTime,  $tableLimit, 'table');
+$barAvailabilityList = getAvailabilityList($date, $time, $maxReservationTime, $tableLimit, 'bar');
 
 //
 //
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $newDateTime = new DateTime("$date $selectedTime");
     $_SESSION['reservation']['time'] = $newDateTime->format("H:i");
-    $_SESSION['reservation']['end_time'] = date("H:i", strtotime($selectedTime) + (60 * 60));
+    $_SESSION['reservation']['end_time'] = date("H:i", strtotime($selectedTime) + ($maxReservationTime));
     $_SESSION['reservation']['seating_location'] = $selectedSpot;
 
     header("Location: reservation-contact.php");

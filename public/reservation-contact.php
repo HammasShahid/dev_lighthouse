@@ -6,22 +6,19 @@ session_start();
 ['date' => $date, 'time' => $time, 'end_time' => $endTime, 'guests' => $guests, 'location' => $location, 'seating_location' => $seating_location] = $_SESSION['reservation'];
 $dateTime = new DateTime("$date $time");
 
-$errors = [];
+$validations = require_once '../helpers/validations.php';
+['errors' => $errors, 'validateName' => $validateName, 'validateEmail' => $validateEmail, 'validatePhone' => $validatePhone] = $validations;
+
+// $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['name'];
   $email = $_POST['email'];
   $phone = $_POST['phone'];
 
-  if (!$name) {
-    $errors[] = 'Please provide your name';
-  }
-  if (!$email) {
-    $errors[] = 'Please provide your email';
-  }
-  if (!$phone) {
-    $errors[] = 'Please provide your phone';
-  }
+  $validateName($name);
+  $validateEmail($email);
+  $validatePhone($phone);
 
   if (empty($errors)) {
     $_SESSION['reservation']['name'] = $name;

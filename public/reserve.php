@@ -5,24 +5,54 @@ date_default_timezone_set("America/Los_Angeles");
 session_start();
 $pdo = require_once '../db/connection.php';
 $constants = require_once '../helpers/constants.php';
-// require_once '../db/reserve_query.php';
+$validations = require_once '../helpers/validations.php';
 
-['openingTime' => $openingTime, 'closingTime' => $closingTime] = $constants;
+['errors' => $errors, 'validateGuests' => $validateGuests, 'validateLocation' => $validateLocation, 'validateTime' => $validateTime, 'validateDate' => $validateDate] = $validations;
+
+['openingTime' => $openingTime, 'closingTime' => $closingTime, 'maxReservationTime' => $maxReservationTime, 'barLimit' => $barLimit] = $constants;
 
 function getMinDate()
 {
   $dateTime = new DateTime('now');
   return $dateTime->format("Y-m-d");
 }
+function getMaxTime()
+{
+  global $closingTime, $maxReservationTime;
+  return date("H:i", strtotime($closingTime) - $maxReservationTime);
+}
 function getMinTime()
 {
   global $openingTime, $closingTime;
-  // $dateTime = new DateTime('now');
-  // return $dateTime->format("H:i");
+
   if (time() < strtotime($openingTime) || time() > strtotime($closingTime)) {
-    return "11:00";
+    return $openingTime;
   } else {
-    return date("H:i", strtotime("now"));
+    $hours = date("H", strtotime("now"));
+    $minutes = intval(date("i", strtotime("now")));
+
+    while (true) {
+      // for correct hour
+      if ($minutes > 50 && $minutes < 60) {
+        $minutes = "00";
+        if (intval($hours) < 23) {
+          $hours = intval($hours) + 1;
+          if (intval($hours) < 10) {
+            $hours = "0$hours";
+          }
+        } else {
+          $hours = "00";
+        }
+        break;
+      }
+
+      // for correct minutes
+      if ($minutes % 10 === 0 || $minutes === 0) {
+        break;
+      }
+      $minutes++;
+    }
+    return "$hours:$minutes";
   }
 }
 
@@ -38,47 +68,16 @@ function getLocations()
   return $locations;
 }
 
-$errors = [];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $guests = $_POST['guests'];
   $location = $_POST['location'];
   $date = $_POST['date'];
   $time = $_POST['time'];
 
-  if (!$guests) {
-    $errors[] = 'Please provide the number of guests';
-  }
-
-  if ($guests < 0 ||  intval($guests) != $guests) {
-    $errors[] = 'Invalid guests number';
-  }
-
-  if (!$date) {
-    $errors[] = 'Please provide reservation date';
-  }
-
-  // Only allow 10 minute intervals in time.
-  $minutes = intval(date("i", strtotime($time)));
-  if ($minutes % 10 !== 0) {
-    $errors[] = 'Please only use 10 minute intervals in time.';
-  }
-
-  if (!$time) {
-    $errors[] = 'Please choose a time';
-  }
-  // Check if the time entered is within the required opening and closing times.
-  if (strtotime($time) > strtotime($closingTime) || strtotime($time) < strtotime($openingTime)) {
-    $errors[] = "Please choose a time between " . date("h:i A", strtotime($openingTime)) . " and " . date("h:i A", strtotime($closingTime));
-  }
-  // Check if the date is today's date and user is not entering a time that has passed.
-  if (date("Y-m-d", strtotime($date)) == date("Y-m-d", strtotime("now")) && strtotime($time) < strtotime("now")) {
-    $errors[] = "You are entering a time that has passed";
-  }
-
-  if (!$location) {
-    $errors[] = 'Please provide location';
-  }
+  $validateGuests($guests);
+  $validateDate($date);
+  $validateTime($time, $date, $openingTime, $closingTime);
+  $validateLocation($location);
 
   if (empty($errors)) {
     $_SESSION['reservation'] = [];
@@ -95,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['reservation']['time'] = $time;
     $_SESSION['reservation']['date'] = $date;
     $_SESSION['reservation']['guests'] = $guests;
+
     header('Location: reserve-time.php');
   }
 }
