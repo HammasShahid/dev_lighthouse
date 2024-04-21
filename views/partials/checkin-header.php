@@ -5,12 +5,12 @@
       <p class="checkin-header-heading">Reservation Check-In</p>
     </div>
 
-    <button class="btn search-toggle">Search</button>
+    <button data-search-toggle class="btn search-toggle">Search</button>
   </div>
 </div>
 
-<div class="search-form-container">
-  <button class="search-close"><i class="fas fa-close"></i></button>
+<div data-search-form-container class="search-form-container modal-container">
+  <button data-search-close class="modal-close"><i class="fas fa-close"></i></button>
   <form method="get" class="search-form">
     <input type="text" name="search" placeholder="Enter Name, Email or Phone Number" value="<?= $search ?>" class="search-input" />
     <button type="submit" class="search-submit"><i class="fas fa-search"></i></button>

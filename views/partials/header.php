@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="css/reservation-header.css">
   <link rel="stylesheet" href="css/checkin-header.css">
   <link rel="stylesheet" href="css/checkin.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/info-popup.css">
 
   <title>Lighthouse</title>
 </head>
