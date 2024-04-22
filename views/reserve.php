@@ -8,7 +8,6 @@
 
   <p class="content-container join-message">Join us for happy hour starting at $5 @9pm</p>
 
-  <!-- <form method="post" action="reserve-time.php" class="reserve-form"> -->
   <form method="post" class="reserve-form">
     <?php if (!empty($errors)) : ?>
       <div class="error-box">
@@ -38,8 +37,8 @@
       <div class="reserve-input-group">
         <i data-date-prev class="input-step fas fa-chevron-left"></i>
         <div class="date-container">
-          <input data-formatted-date type="text" name="formattedDate" class="reserve-form-input" readonly onclick="showDatePicker()">
-          <input data-date type="date" id="date" name="date" min="<?= getMinDate(); ?>" value="<?= getMinDate() ?>" onchange="updateFormattedDate()">
+          <input data-formatted-date type="text" name="formattedDate" class="reserve-form-input" readonly />
+          <input data-date type="date" id="date" name="date" min="<?= getMinDate(); ?>" value="<?= getMinDate() ?>" />
         </div>
         <i data-date-next class="input-step fas fa-chevron-right"></i>
       </div>
@@ -67,5 +66,3 @@
 </div>
 
 <script src="js/reserve.js"></script>
-<script>
-</script>

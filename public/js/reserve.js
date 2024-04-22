@@ -14,6 +14,23 @@ const guestsPrev = document.querySelector('[data-guests-prev]');
 // show formatted date as soon as the page loads.
 updateFormattedDate();
 
+stepUp(timeNext, timeField, 'time');
+stepDown(timePrev, timeField, 'time');
+
+stepUp(dateNext, datePicker, 'date');
+stepDown(datePrev, datePicker, 'date');
+
+stepUp(guestsNext, guestsField, 'guests');
+stepDown(guestsPrev, guestsField, 'guests');
+
+formattedDateField.addEventListener('click', () => {
+  datePicker.style.display = 'block';
+});
+
+datePicker.addEventListener('update', () => {
+  updateFormattedDate();
+});
+
 function stepUp(stepBtn, field, fieldName) {
   stepBtn.addEventListener('click', () => {
     if (fieldName === 'time') {
@@ -43,19 +60,7 @@ function stepDown(stepBtn, field, fieldName) {
   });
 }
 
-stepUp(timeNext, timeField, 'time');
-stepDown(timePrev, timeField, 'time');
-
-stepUp(dateNext, datePicker, 'date');
-stepDown(datePrev, datePicker, 'date');
-
-stepUp(guestsNext, guestsField, 'guests');
-stepDown(guestsPrev, guestsField, 'guests');
-
-function showDatePicker() {
-  datePicker.style.display = 'block';
-}
-
+// get the formatted version of date that should be shown on UI.
 function updateFormattedDate() {
   const inputDate = new Date(datePicker.value);
   const options = {
