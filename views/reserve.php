@@ -1,3 +1,6 @@
+<style>
+</style>
+
 <div class="reserve-page">
   <div class="content-container content-logo-container">
     <img src="images/logo.png" />
@@ -34,7 +37,10 @@
     <div class="content-container reserve-form-group">
       <div class="reserve-input-group">
         <i data-date-prev class="input-step fas fa-chevron-left"></i>
-        <input data-date type="date" id="date" name="date" min="<?= getMinDate(); ?>" value="<?= getMinDate(); ?>" class="reserve-form-input" />
+        <div class="date-container">
+          <input data-formatted-date type="text" name="formattedDate" class="reserve-form-input" readonly onclick="showDatePicker()">
+          <input data-date type="date" id="date" name="date" min="<?= getMinDate(); ?>" value="<?= getMinDate() ?>" onchange="updateFormattedDate()">
+        </div>
         <i data-date-next class="input-step fas fa-chevron-right"></i>
       </div>
       <label for="date" class="reserve-form-label">Date</label>
@@ -61,3 +67,5 @@
 </div>
 
 <script src="js/reserve.js"></script>
+<script>
+</script>

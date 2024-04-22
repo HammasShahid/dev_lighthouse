@@ -2,39 +2,68 @@ const timeField = document.querySelector('[data-time]');
 const timeNext = document.querySelector('[data-time-next]');
 const timePrev = document.querySelector('[data-time-prev]');
 
-const dateField = document.querySelector('[data-date]');
+const datePicker = document.querySelector('[data-date]');
 const dateNext = document.querySelector('[data-date-next]');
 const datePrev = document.querySelector('[data-date-prev]');
+const formattedDateField = document.querySelector('[data-formatted-date]');
 
 const guestsField = document.querySelector('[data-guests]');
 const guestsNext = document.querySelector('[data-guests-next]');
 const guestsPrev = document.querySelector('[data-guests-prev]');
 
-function stepUp(stepBtn, field, isTime) {
+// show formatted date as soon as the page loads.
+updateFormattedDate();
+
+function stepUp(stepBtn, field, fieldName) {
   stepBtn.addEventListener('click', () => {
-    if (isTime) {
+    if (fieldName === 'time') {
       field.stepUp(10);
     } else {
       field.stepUp();
     }
-  });
-}
 
-function stepDown(stepBtn, field, isTime) {
-  stepBtn.addEventListener('click', () => {
-    if (isTime) {
-      field.stepDown(10);
-    } else {
-      field.stepDown();
+    // show formatted date if date field
+    if (fieldName === 'date') {
+      updateFormattedDate();
     }
   });
 }
 
-stepUp(timeNext, timeField, true);
-stepDown(timePrev, timeField, true);
+function stepDown(stepBtn, field, fieldName) {
+  stepBtn.addEventListener('click', () => {
+    if (fieldName === 'time') {
+      field.stepDown(10);
+    } else {
+      field.stepDown();
+    }
+    // show formatted date if date field
+    if (fieldName === 'date') {
+      updateFormattedDate();
+    }
+  });
+}
 
-stepUp(dateNext, dateField, false);
-stepDown(datePrev, dateField, false);
+stepUp(timeNext, timeField, 'time');
+stepDown(timePrev, timeField, 'time');
 
-stepUp(guestsNext, guestsField, false);
-stepDown(guestsPrev, guestsField, false);
+stepUp(dateNext, datePicker, 'date');
+stepDown(datePrev, datePicker, 'date');
+
+stepUp(guestsNext, guestsField, 'guests');
+stepDown(guestsPrev, guestsField, 'guests');
+
+function showDatePicker() {
+  datePicker.style.display = 'block';
+}
+
+function updateFormattedDate() {
+  const inputDate = new Date(datePicker.value);
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedDate = inputDate.toLocaleDateString('en-US', options);
+  formattedDateField.value = formattedDate;
+  datePicker.style.display = 'none';
+}
