@@ -8,10 +8,10 @@ function validateGuests($guests)
 
   if (!$guests) {
     $errors[] = 'Please provide the number of guests';
-  }
-
-  if ($guests < 0 ||  intval($guests) != $guests) {
-    $errors[] = 'Invalid guests number';
+  } else {
+    if ($guests < 0 ||  intval($guests) != $guests) {
+      $errors[] = 'Invalid guests number';
+    }
   }
 }
 
@@ -27,26 +27,27 @@ function validateDate($date)
   }
 }
 
-function validateTime($time, $date, $openingTime, $closingTime)
+function validateTime($time, $date, $openingTime, $closingTime, $maxReservationTime)
 {
   global $errors;
 
   if (!$time) {
     $errors[] = 'Please choose a time';
-  }
-  // Only allow 10 minute intervals in time.
-  $minutes = intval(date("i", strtotime($time)));
-  if ($minutes % 10 !== 0) {
-    $errors[] = 'Please only use 10 minute intervals in time.';
-  }
+  } else {
+    // Only allow 10 minute intervals in time.
+    $minutes = intval(date("i", strtotime($time)));
+    if ($minutes % 10 !== 0) {
+      $errors[] = 'Please only use 10 minute intervals in time.';
+    }
 
-  // Check if the time entered is within the required opening and closing times.
-  if (strtotime($time) > strtotime($closingTime) || strtotime($time) < strtotime($openingTime)) {
-    $errors[] = "Please choose a time between $openingTime :::" . date("h:i A", strtotime($openingTime)) . " and " . date("h:i A", strtotime($closingTime));
-  }
-  // Check if the date is today's date and user is not entering a time that has passed.
-  if (date("Y-m-d", strtotime($date)) == date("Y-m-d", strtotime("now")) && strtotime($time) < strtotime("now")) {
-    $errors[] = "You are entering a time that has passed";
+    // Check if the time entered is within the required opening and closing times.
+    if (strtotime($time) > (strtotime($closingTime) - $maxReservationTime) || strtotime($time) < strtotime($openingTime)) {
+      $errors[] = "Please choose a time between " . date("h:i A", strtotime($openingTime)) . " and " . date("h:i A", strtotime($closingTime) - $maxReservationTime);
+    }
+    // Check if the date is today's date and user is not entering a time that has passed.
+    if (date("Y-m-d", strtotime($date)) == date("Y-m-d", strtotime("now")) && strtotime($time) < strtotime("now")) {
+      $errors[] = "You are entering a time that has passed";
+    }
   }
 }
 
