@@ -4,6 +4,9 @@
     <div class="availability-options">
       <?php
       $seating_spot = 'table';
+      if (!count($tableAvailabilityList) && !count($barAvailabilityList)) {
+        echo "<p class='no-reservation'>Sorry, no time slot available in the selected date</p>";
+      }
       foreach ($tableAvailabilityList as $availableTime) {
         include "../views/reserve-time/time-availability-option.php";
       }

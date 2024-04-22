@@ -11,7 +11,7 @@ $constants = require_once '../helpers/constants.php';
 // $tableLimit = 5;
 // $barLimit = 5;
 
-['tableLimit' => $tableLimit, 'barLimit' => $barLimit, 'maxReservationTime' => $maxReservationTime] = $constants;
+['tableLimit' => $tableLimit, 'barLimit' => $barLimit, 'maxReservationTime' => $maxReservationTime, 'closingTime' => $closingTime] = $constants;
 
 function getReservesInDb($date, $time, $maxReservationTime, $seating_location)
 {
@@ -20,7 +20,7 @@ function getReservesInDb($date, $time, $maxReservationTime, $seating_location)
   $statement =
     $pdo->prepare(
       "SELECT * FROM reservation 
-    WHERE date = :date AND seating_location = :seating_location AND ((time >= :time AND time < :end_time) OR (end_time > :time AND end_time <= :end_time))"
+    WHERE date = :date AND seating_location = :seating_location AND checked_in = '0' AND hidden = '0' AND ((time >= :time AND time < :end_time) OR (end_time > :time AND end_time <= :end_time))"
     );
   $statement->bindValue(':date', $date);
   $statement->bindValue(':seating_location', $seating_location);
@@ -37,23 +37,31 @@ function getReservesInDb($date, $time, $maxReservationTime, $seating_location)
   return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getAvailabilityList($date, $time, $maxReservationTime, $limit, $seating_location)
+// get available time slots
+function getAvailabilityList($date, $time, $maxReservationTime, $limit, $seating_location, $closingTime)
 {
   $availabilityList = [];
   for ($i = 0; count($availabilityList) < 2; $i++) {
 
     $timeIncrement = (60 * 10) * $i;
     $timestamp = strtotime($time);
-    $timeInterval = date("H:i", $timestamp + $timeIncrement);
+    $timeInterval = $timestamp + $timeIncrement;
+    $timeSlot = date("H:i", $timeInterval);
 
-    $reservesInDb = getReservesInDb($date, $timeInterval, $maxReservationTime, $seating_location);
-    $available = true;
-    if (count($reservesInDb) >= $limit) {
-      $available = false;
+    if ($timeInterval > strtotime($closingTime) - $maxReservationTime) {
+      break;
     }
-    if ($available) {
-      // $availabilityList[] = $time + $timeIncrement;
-      $availabilityList[] = $timeInterval;
+
+    $reservesInDb = getReservesInDb($date, $timeSlot, $maxReservationTime, $seating_location);
+    // $available = true;
+    // if (count($reservesInDb) >= $limit) {
+    //   $available = false;
+    // }
+    // if ($available) {
+    //   $availabilityList[] = $timeInterval;
+    // }
+    if (count($reservesInDb) < $limit) {
+      $availabilityList[] = $timeSlot;
     }
   }
 
@@ -95,8 +103,8 @@ function getAvailableDates($date, $time, $tableLimit, $barLimit)
 
 ['date' => $date, 'time' => $time, 'guests' => $guests, 'location' => $location] = $_SESSION['reservation'];
 
-$tableAvailabilityList = getAvailabilityList($date, $time, $maxReservationTime,  $tableLimit, 'table');
-$barAvailabilityList = getAvailabilityList($date, $time, $maxReservationTime, $tableLimit, 'bar');
+$tableAvailabilityList = getAvailabilityList($date, $time, $maxReservationTime,  $tableLimit, 'table', $closingTime);
+$barAvailabilityList = getAvailabilityList($date, $time, $maxReservationTime, $tableLimit, 'bar', $closingTime);
 
 //
 //
