@@ -23,6 +23,9 @@
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
+.content-container.reserve-form-group {
+  gap: 0;
+}
 
 .reserve-form-label {
   font-weight: 700;

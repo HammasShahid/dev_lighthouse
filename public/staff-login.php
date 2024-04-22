@@ -5,7 +5,8 @@ if (isset($_SESSION['staff_account'])) {
   header("Location: dashboard.php");
 }
 
-$validAccessKey = 'abc.123';
+$constants = require_once "../helpers/constants.php";
+['staffPassword' => $staffPassword] = $constants;
 
 $errors = [];
 
@@ -14,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!$accessKey) {
     $errors[] = 'Please enter the access key';
   } else {
-    if ($accessKey === $validAccessKey) {
+    if ($accessKey === $staffPassword) {
       $_SESSION['staff_account'] = true;
       header("Location: dashboard.php");
     } else {
