@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $validateGuests($guests);
   $validateDate($date);
-  $validateTime($time, $date, $openingTime, $closingTime);
+  $validateTime($time, $date, $openingTime, $closingTime, $maxReservationTime);
   $validateLocation($location);
 
   if (empty($errors)) {
